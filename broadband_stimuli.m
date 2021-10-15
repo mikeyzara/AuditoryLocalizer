@@ -80,7 +80,9 @@ for c = 1:12 % Twelve blocks: (12*23.8sec)/60 = 4.76 mins
     wave = zeros(88*4410, 2); % Allocate memory for sequence
     for n = 1:88 %For each sec in stimuli presentation
         f = find([DCT_FUNCTIONS{1}((1:2:143)/144) > rand, true], 1)-1; % Select a frequency based on flat DCT distribution
-        wave((n-1)*4410+(1:4410), :) = (sin(pi/22.05*exp(log(2)*(f-36)/12)*(1:4410)').*envelope)*exp(log(10)/20*min(0, spl(f+1)*fade(n)+thresholds(f+1, :)+offset)); % Generate the tone
+%         wave((n-1)*4410+(1:4410), :) = (sin(pi/22.05*exp(log(2)*(f-36)/12)*(1:4410)').*envelope)*exp(log(10)/20*min(0, spl(f+1)*fade(n)+thresholds(f+1, :)+offset)); % Generate the tone
+%         wave((n-1)*4410+(1:4410), :) = (sin(pi/22.05*exp(log(2)*(f-36)/12)*(1:4410)').*envelope)*exp(log(10)/20*min(0, spl(f+1)*fade(n)+[1 1]+offset)); % Generate the tone
+        wave((n-1)*4410+(1:4410), :) = (sin(pi/22.05*exp(log(2)*(f-36)/12)*(1:4410)').*envelope)*exp(log(10)/20*min(0, [spl(f+1) spl(f+1)].*fade(n)+offset)); %generate the sequence of tones
     end
     if (c == 1) %The first trial: need to get 10s baseline measurement first before playing the first stimuli
         fprintf('Waiting for trigger ... '); % Input from experimenter needed -- is everything good to go?
